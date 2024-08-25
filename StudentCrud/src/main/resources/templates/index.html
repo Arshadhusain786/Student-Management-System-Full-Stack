@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>Student Registration</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/cosmo/bootstrap.min.css" />
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div>
+    <h2>Spring Boot Crud System - Student Registration</h2>
+    <div align="left">
+        <h3><a th:href="@{'/new'}" class="btn btn-primary">Add New</a></h3>
+        <!-- Changed color to primary (blue) -->
+    </div>
+
+    <div class="col-sm-5" align="center">
+        <div class="panel-body" align="center">
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Student ID</th>
+                    <th>Student Name</th>
+                    <th>Course</th>
+                    <th>Fee</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="student : ${liststudent}">
+                    <td th:text="${student.id}">Student ID</td>
+                    <td th:text="${student.studentname}">Student Name</td>
+                    <td th:text="${student.course}">Course</td>
+                    <td th:text="${student.fee}">Fee</td>
+                    <td>
+                        <a th:href="@{'/edit/' + ${student.id}}" class="btn btn-warning">Edit</a> <!-- Changed color to warning (yellow) -->
+                    </td>
+                    <td>
+                        <a th:href="@{'/delete/' + ${student.id}}" class="btn btn-danger">Delete</a> <!-- Changed color to danger (red) -->
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
