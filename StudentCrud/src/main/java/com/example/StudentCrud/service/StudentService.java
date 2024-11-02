@@ -6,28 +6,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class StudentService {
 
+    private final StudentRepository repo;
+
     @Autowired
-    private StudentRepository repo;
+    public StudentService(StudentRepository repo) {
+        this.repo = repo;
+    }
 
     public List<Student> listAll() {
         return repo.findAll();
     }
 
-    public void save(Student std) {
-        repo.save(std);
+    public void save(Student student) {
+        repo.save(student);
     }
 
     public Student get(long id) {
-        Optional<Student> result = repo.findById(id);
-        return result.orElse(null); // Or throw a custom exception
+        return repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Student not found with id " + id));
+        // Consider creating a custom exception class for more flexibility
     }
 
     public void delete(long id) {
         repo.deleteById(id);
     }
 }
+
+

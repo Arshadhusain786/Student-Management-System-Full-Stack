@@ -1,50 +1,75 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8" />
-    <title>Student Registration</title>
+    <title>Student Management System</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/cosmo/bootstrap.min.css" />
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div>
-    <h2>Spring Boot Crud System - Student Registration</h2>
-    <div align="left">
-        <h3><a th:href="@{'/new'}" class="btn btn-primary">Add New</a></h3>
-        <!-- Changed color to primary (blue) -->
-    </div>
+<div class="container">
+    <h1>Student Management System</h1>
+    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
-    <div class="col-sm-5" align="center">
-        <div class="panel-body" align="center">
-            <table class="table">
-                <thead class="thead-dark">
-                <tr>
-                    <th>Student ID</th>
-                    <th>Student Name</th>
-                    <th>Course</th>
-                    <th>Fee</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="student : ${liststudent}">
-                    <td th:text="${student.id}">Student ID</td>
-                    <td th:text="${student.studentname}">Student Name</td>
-                    <td th:text="${student.course}">Course</td>
-                    <td th:text="${student.fee}">Fee</td>
-                    <td>
-                        <a th:href="@{'/edit/' + ${student.id}}" class="btn btn-warning">Edit</a> <!-- Changed color to warning (yellow) -->
-                    </td>
-                    <td>
-                        <a th:href="@{'/delete/' + ${student.id}}" class="btn btn-danger">Delete</a> <!-- Changed color to danger (red) -->
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Course</th>
+            <th>Fee</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="student : ${listStudents}">
+            <td th:text="${student.id}"></td>
+            <td th:text="${student.studentName}"></td>
+            <td th:text="${student.course.title}"></td> <!-- Assuming course is a nested object -->
+            <td th:text="${student.fee}"></td>
+            <td>
+                <a th:href="@{/students/edit/{id}(id=${student.id})}" class="btn btn-warning">Edit</a>
+                <a th:href="@{/students/delete/{id}(id=${student.id})}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        <div class="button-group">
+            <a href="/students" class="btn custom-btn">View All Students</a>
+            <a href="/courses" class="btn custom-btn">View All Courses</a>
+            <a href="/instructors" class="btn custom-btn">View All Instructors</a>
         </div>
-    </div>
+
+        <!-- CSS for Custom Styling -->
+        <style>
+            /* Container for the buttons with gap between them */
+            .button-group {
+                display: flex;
+                gap: 15px; /* Adds 15px space between buttons */
+                justify-content: start; /* Align buttons to the start */
+            }
+
+            /* Custom button styles */
+            .custom-btn {
+                background-color: #4a90e2; /* Soft blue color */
+                color: #ffffff; /* White text */
+                padding: 10px 20px;
+                border-radius: 5px;
+                text-decoration: none;
+                font-size: 16px;
+                font-weight: bold;
+                transition: background-color 0.3s ease;
+            }
+
+            /* Hover effect for buttons */
+            .custom-btn:hover {
+                background-color: #357ABD; /* Darker blue on hover */
+            }
+        </style>
+        </tbody>
+    </table>
+
+    <a th:href="@{/students/new}" class="btn btn-success">Add Student</a>
+    <a href="/instructors/new" class="btn btn-primary">Add New Instructor</a>
+    <a href="/courses/new" class="btn btn-primary">Add New Course</a>
 </div>
 </body>
 </html>

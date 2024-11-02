@@ -1,60 +1,60 @@
 package com.example.StudentCrud.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "student") // It's often good practice to use plural for table names
 public class Student {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    private String studentname;
-    private String course;
-    private int fee;
+    @Column(name = "student_name", nullable = false, length = 100) // Added column mapping for better control
+    private String studentName;
 
-    public Student() {
-        super();
-    }
+    @ManyToOne(fetch = FetchType.LAZY, optional = false) // Added fetch type and optional=false for mandatory field
+    @JoinColumn(name = "course_id", nullable = false) // Ensures the course ID is non-null in DB
+    private Course course;
 
-    public Student(String studentname, String course, int fee) {
-        super();
-        this.studentname = studentname;
-        this.course = course;
-        this.fee = fee;
-    }
 
-    public long getId() {
-        return id;
-    }
 
-    public void setId(long id) {
-        this.id = id;
-    }
 
-    public String getStudentname() {
-        return studentname;
-    }
+    private Double fee;  // Assuming fee is a Double type; adjust type if different
 
-    public void setStudentname(String studentname) {
-        this.studentname = studentname;
-    }
-
-    public String getCourse() {
-        return course;
-    }
-
-    public void setCourse(String course) {
-        this.course = course;
-    }
-
-    public int getFee() {
+    // Getter
+    public Double getFee() {
         return fee;
     }
 
-    public void setFee(int fee) {
+    // Setter
+    public void setFee(Double fee) {
         this.fee = fee;
     }
+
+    // Getters and setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
 }

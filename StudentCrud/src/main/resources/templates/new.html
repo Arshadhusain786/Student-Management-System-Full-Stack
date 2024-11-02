@@ -1,50 +1,54 @@
-
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8" />
-    <title>Create New Product</title>
+    <title>Create/Edit Student</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/cosmo/bootstrap.min.css" />
-    <script src= "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" ></script>
 </head>
 <body>
-<div align="center">
-    <h1>Create New Student</h1>
-    <br />
-    <div class="col-sm-4">
-        <form action="#" th:action="@{/save}" th:object="${student}" method="post">
+<div class="container">
+    <h1 th:text="${student.id == null ? 'Add Student' : 'Edit Student'}"></h1>
+
+    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <form th:action="@{/students/save}" th:object="${student}" method="post">
+        <!-- Student Name -->
+        <div class="form-group">
+            <label for="studentname">Student Name</label>
+            <input type="text" class="form-control" id="studentname" th:field="*{studentName}" placeholder="Enter student name" required />
+            <small class="form-text text-muted">Please enter the full name of the student.</small>
+        </div>
+
+        <!-- Course -->
+        <div class="form-group">
+            <label for="course">Course</label>
+            <select class="form-control" id="course" th:field="*{course.id}" required>
+                <option value="" disabled selected>Select a course</option>
+                <option th:each="course : ${listCourses}" th:value="${course.id}" th:text="${course.title}"></option>
+            </select>
+
+            <small class="form-text text-muted">Select the course for the student.</small>
+        </div>
+
+        <!-- Fee -->
+        <div class="form-group">
+            <label for="fee">Fee</label>
+            <input type="number" class="form-control" id="fee" th:field="*{fee}" placeholder="Enter fee" required min="0" />
+            <small class="form-text text-muted">Enter the fee amount (must be a positive number).</small>
+        </div>
+        <div th:if="${#lists.isEmpty(listCourses)}">
+            <p>No courses available. Please add courses first.</p>
+        </div>
 
 
-            <div alight="left">
-                <tr>
-                    <label class="form-label" >Student Name</label>
-                    <td>
-                        <input type="hidden" th:field="*{id}" />
-                        <input type="text" th:field="*{studentname}" class="form-control" placeholder="Student Name" />
-                    </td>
-                </tr>
-            </div>
+        <!-- Save Button -->
+        <button type="submit" class="btn btn-success">Submit</button>
+        <a th:href="@{/students}" class="btn btn-secondary">Cancel</a>
+    </form>
 
-            <div alight="left">
-
-                <tr>
-                    <label class="form-label" >Course</label>
-                    <td><input type="text" th:field="*{course}" class="form-control" placeholder="Course" /></td>
-                </tr>
-            </div>
-            <div alight="left">
-                <tr>
-                    <label class="form-label" >Fee</label>
-                    <td><input type="text" th:field="*{fee}" class="form-control" placeholder="Fee" /></td>
-                </tr>
-            </div>
-            <br>
-            <tr>
-                <td colspan="2"><button type="submit" class="btn btn-info">Save</button> </td>
-            </tr>
-            </table>
-        </form>
-    </div>
+    <!-- Link to Add Course -->
+    <a href="/courses/new" class="btn btn-primary mt-3">Add New Course</a>
+</div>
 </body>
 </html>

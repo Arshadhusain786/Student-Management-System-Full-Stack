@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>Instructor List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/cosmo/bootstrap.min.css" />
+</head>
+<body>
+<div class="container">
+    <h2>Instructor List</h2>
+
+    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="instructor : ${listInstructors}">
+            <td th:text="${instructor.id}"></td>
+            <td th:text="${instructor.name}"></td>
+            <td>
+                <a th:href="@{/instructors/edit/{id}(id=${instructor.id})}" class="btn btn-warning">Edit</a>
+                <a th:href="@{/instructors/delete/{id}(id=${instructor.id})}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="/instructors/new" class="btn btn-primary">Add Instructor</a>
+    <a href="/courses/new" class="btn btn-primary">Add New Course</a>
+</div>
+</body>
+</html>
