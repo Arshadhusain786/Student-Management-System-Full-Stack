@@ -26,18 +26,18 @@ public class CourseController {
     public String viewCoursePage(Model model) {
         List<Course> listCourses = courseService.listAll();
         model.addAttribute("listCourses", listCourses);
-        return "course"; // Ensure there's a course.html view to display the courses list
+        return "course";
     }
 
     @GetMapping("/new")
     public String showNewCourseForm(Model model) {
         Course course = new Course();
-        List<Instructor> instructors = instructorService.listAll(); // Fetch all instructors
+        List<Instructor> instructors = instructorService.listAll();
 
         model.addAttribute("course", course);
         model.addAttribute("instructors", instructors);
 
-        return "new_course"; // Ensure you have a corresponding new_course.html template
+        return "new_course";
     }
 
     @PostMapping("/save")
@@ -70,7 +70,7 @@ public class CourseController {
             List<Instructor> instructors = instructorService.listAll();
             model.addAttribute("course", course);
             model.addAttribute("instructors", instructors);
-            return "new_course"; // Reuse new_course.html for editing
+            return "new_course";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Failed to find course: " + e.getMessage());
             return "redirect:/courses";

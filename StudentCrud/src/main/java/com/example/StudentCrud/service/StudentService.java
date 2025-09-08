@@ -28,7 +28,7 @@ public class StudentService {
     public Student get(long id) {
         return repo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student not found with id " + id));
-        // Consider creating a custom exception class for more flexibility
+
     }
 
     public void delete(long id) {

@@ -3,6 +3,7 @@ package com.example.StudentCrud.service;
 import com.example.StudentCrud.domain.Course;
 import com.example.StudentCrud.domain.Instructor;
 import com.example.StudentCrud.repository.CourseRepository;
+import com.example.StudentCrud.repository.StudentRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +15,12 @@ import java.util.Optional;
 public class CourseService {
 
     private final CourseRepository courseRepository;
+    private final StudentRepository studentRepository;
 
     @Autowired
-    public CourseService(CourseRepository courseRepository) {
+    public CourseService(CourseRepository courseRepository, StudentRepository studentRepository) {
         this.courseRepository = courseRepository;
+        this.studentRepository = studentRepository;
     }
 
     // Method to create and save a new course
@@ -46,7 +49,9 @@ public class CourseService {
     }
 
     // Method to delete a course by ID
-    public void delete(long id) {
+    public void delete(long id)
+    {
+        studentRepository.updateCourseIdToNull(id);
         if (!courseRepository.existsById(id)) {
             throw new RuntimeException("Course not found with id " + id);
         }

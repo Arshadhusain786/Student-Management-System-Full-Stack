@@ -13,6 +13,8 @@
     <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
     <form th:action="@{/students/save}" th:object="${student}" method="post">
+        <input type="hidden" th:field="*{id}" />
+
         <!-- Student Name -->
         <div class="form-group">
             <label for="studentname">Student Name</label>
@@ -27,7 +29,6 @@
                 <option value="" disabled selected>Select a course</option>
                 <option th:each="course : ${listCourses}" th:value="${course.id}" th:text="${course.title}"></option>
             </select>
-
             <small class="form-text text-muted">Select the course for the student.</small>
         </div>
 
@@ -37,10 +38,11 @@
             <input type="number" class="form-control" id="fee" th:field="*{fee}" placeholder="Enter fee" required min="0" />
             <small class="form-text text-muted">Enter the fee amount (must be a positive number).</small>
         </div>
+
+        <!-- Check if there are courses available -->
         <div th:if="${#lists.isEmpty(listCourses)}">
             <p>No courses available. Please add courses first.</p>
         </div>
-
 
         <!-- Save Button -->
         <button type="submit" class="btn btn-success">Submit</button>
@@ -49,6 +51,7 @@
 
     <!-- Link to Add Course -->
     <a href="/courses/new" class="btn btn-primary mt-3">Add New Course</a>
+
 </div>
 </body>
 </html>

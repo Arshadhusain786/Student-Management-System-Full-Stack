@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
-@RequestMapping("/students") // Base mapping for all student operations
+@RequestMapping("/students")
 public class StudentController {
 
     private final StudentService studentService;
@@ -43,20 +43,31 @@ public class StudentController {
     @GetMapping("/new")
     public String addStudentForm(Model model) {
         Student student = new Student();
-        List<Course> listCourses = courseService.listAll(); // Assuming you're also populating courses
-        List<Instructor> instructors = instructorService.listAll(); // Fetch the list of instructors
+        List<Course> listCourses = courseService.listAll();
+        List<Instructor> instructors = instructorService.listAll();
         model.addAttribute("student", student);
         model.addAttribute("listCourses", listCourses);
-        model.addAttribute("instructors", instructors); // Add instructors to the model
-        return "new"; // Return the view name
+        model.addAttribute("instructors", instructors);
+        return "new";
     }
 
-
-    // Save student data from the form
     @PostMapping("/save")
     public String saveStudent(@ModelAttribute("student") Student student, RedirectAttributes redirectAttributes) {
         try {
-            studentService.save(student);
+
+            if (student.getId() != null) {
+                Student existingStudent = studentService.get(student.getId());
+
+                existingStudent.setStudentName(student.getStudentName());
+                existingStudent.setCourse(student.getCourse());
+                existingStudent.setFee(student.getFee());
+
+                // Add other fields as necessary
+                studentService.save(existingStudent);
+            } else {
+                // If ID is null, treat it as a new student
+                studentService.save(student);
+            }
             redirectAttributes.addFlashAttribute("message", "Student saved successfully!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Failed to save student: " + e.getMessage());

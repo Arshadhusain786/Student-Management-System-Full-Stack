@@ -26,7 +26,7 @@ public class InstructorService {
 
     public Instructor get(long id) {
         Optional<Instructor> result = instructorRepo.findById(id);
-        return result.orElse(null); // Or throw a custom exception
+        return result.orElse(null);
     }
 
     public void delete(long id) {

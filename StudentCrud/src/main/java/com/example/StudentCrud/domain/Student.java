@@ -3,24 +3,24 @@ package com.example.StudentCrud.domain;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "student") // It's often good practice to use plural for table names
+@Table(name = "student")
 public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "student_name", nullable = false, length = 100) // Added column mapping for better control
+    @Column(name = "student_name", nullable = false, length = 100)
     private String studentName;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false) // Added fetch type and optional=false for mandatory field
-    @JoinColumn(name = "course_id", nullable = false) // Ensures the course ID is non-null in DB
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
 
 
 
-    private Double fee;  // Assuming fee is a Double type; adjust type if different
+    private Double fee;
 
     // Getter
     public Double getFee() {

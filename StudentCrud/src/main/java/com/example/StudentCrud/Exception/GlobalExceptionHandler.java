@@ -10,6 +10,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public String handleException(Exception e, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("error", "An error occurred: " + e.getMessage());
-        return "redirect:/"; // Redirect to the home page or error page
+        return "redirect:/";
     }
 }

@@ -22,7 +22,7 @@ public class InstructorController {
     public String listInstructors(Model model) {
         List<Instructor> listInstructors = instructorService.listAll();
         model.addAttribute("listInstructors", listInstructors);
-        return "instructor/index"; // Assuming your template is at src/main/resources/templates/instructor/index.html
+        return "instructor/index";
     }
 
     @GetMapping("/new")
